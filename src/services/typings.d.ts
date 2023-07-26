@@ -18,4 +18,20 @@ declare namespace API {
       token:string
     }
   }
+  interface TopicData{
+    photo:string[],
+    id:number,
+    title:string,
+    category:string,
+    created_time:string,
+    introduce:string,
+    author:string,
+    author_avatar:string
+  }
+  interface ArticleData{
+    code:number,
+    data:{
+      topics:TopicData[]
+    }
+  }
 }

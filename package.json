@@ -11,7 +11,7 @@
     "start": "set PORT=8081 && npm run dev"
   },
   "dependencies": {
-    "@ant-design/icons": "^5.0.1",
+    "@ant-design/icons": "^5.1.4",
     "@ant-design/pro-components": "^2.6.7",
     "@umijs/max": "^4.0.72",
     "antd": "^5.4.0"
