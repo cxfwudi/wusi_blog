@@ -18,6 +18,11 @@ declare namespace API {
       token:string
     }
   }
+  interface registerData{
+    code:number,
+    username:string,
+    data:{}
+  }
   interface TopicData{
     photo:string[],
     id:number,

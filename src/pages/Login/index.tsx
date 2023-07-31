@@ -15,6 +15,7 @@ export default () => {
     const { code, username, data } = await fetchLogin({ username: account, password: pwd });
     localStorage.setItem('username', username);
     localStorage.setItem('wusiToken', data.token);
+    localStorage.setItem('blog_has_login','has');
     if (code === 200) {
       await setInitialState((s) => {
         return {

@@ -22,12 +22,20 @@ export default [
     path: '/list',  //在List组件中设置筛选条件
     component: 'Topic/List',
     name: '文章列表',
-    menuRender:false
+    menuRender: false
   },
   {
     path: '/login',
     component: 'Login',
     layout: false,  //关闭整体布局
-    
+  },
+  {
+    path: '/register',
+    component: 'Register',
+    layout: false
+  },
+  {
+    path: '/userinfo',
+    component: 'UserInfo'
   }
 ]

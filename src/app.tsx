@@ -2,22 +2,26 @@
 import { logo } from './utils/imgApi';
 import type { RequestConfig } from '@umijs/max';
 import { history } from '@umijs/max';
-import { host, perfix } from './../setting/apiPerfix';
-import { settings } from './../setting/layoutDefault';
-import { useModel } from '@umijs/max';
+import { host, perfix } from '../setting/apiPerfix';
+import { settings } from '../setting/layoutDefault';
 import { notification } from 'antd';
+import RightContent from './components/RightContent';
 import './global.less';
 // 全局初始化数据配置，用于 Layout 用户信息和权限初始化
 export async function getInitialState(): Promise<{
   settings?: any
   username?:string | null,
-  token?: string | null
+  token?: string | null,
+  hasLogin?:string | null
 }> {
+  const hasLogin = localStorage.getItem('blog_has_login');
   if (history.location.pathname === '/login') {
+
     return {
       settings,
       username: '',
-      token: ''
+      token: '',
+      hasLogin:hasLogin
     }
   } else {
     const username = localStorage.getItem('username');
@@ -25,7 +29,8 @@ export async function getInitialState(): Promise<{
     return {
       settings,
       username,
-      token
+      token,
+      hasLogin:hasLogin
     };
   }
 
@@ -49,7 +54,7 @@ const requestInterceptor = (url: string, options: any) => {
         ...options,
         headers: {
           ...(options?.headers ?? {}),
-          Authorization: `bearer ${token}`,    // 这里获取自己的token携带在请求头上
+          Authorization: `${token}`,    // 这里获取自己的token携带在请求头上
         },
       },
     };
@@ -70,17 +75,18 @@ export const request: RequestConfig = {
   requestInterceptors: [requestInterceptor],
   responseInterceptors: [responseInterceptor]
 }
+
 //成功code,data 失败code,error
 export const layout = () => {
   return {
+    rightContentRender:() => <RightContent />,
     title: '钨丝|个人博客',
     logo: logo,
     menu: {
       locale: false,
     },
    
-    rightRenderContent: () => { },
     layout: 'top',
     // splitMenus:true
-  };
+  }
 };

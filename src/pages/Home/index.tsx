@@ -4,6 +4,7 @@ import { Anchor, Tooltip, Card, Space, Row, Col, Avatar } from "antd";
 import { WechatOutlined, UnorderedListOutlined, QqOutlined, RedditOutlined, InstagramOutlined } from "@ant-design/icons";
 import { randomTopics } from '../../services/api';
 import { useEffect, useState } from "react";
+import { unicodeToStr } from "@/utils";
 interface TopicData {
   photos: string[],
   id: number,
@@ -46,10 +47,7 @@ export default () => {
       )
     }
   }
-  //unicode转字符串方法
-  const unicodeToStr = (unicode: string) => {
-    return unicode.replace(/\\u([\dA-Fa-f]{4})/g, (_, p1) => String.fromCharCode(parseInt(p1, 16)))
-  }
+  
   useEffect(() => {
     const fetchRandomsTopics = async () => {
       const { data } = await randomTopics();
@@ -85,7 +83,6 @@ export default () => {
             ]}
           >开始阅读</Anchor>
         </div>
-
       </div>
       <Space direction="vertical" className={styles.card_contaienr} id="part-1">
         <Card title={cardTitle('content')}>
