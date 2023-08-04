@@ -5,6 +5,7 @@ import { WechatOutlined, UnorderedListOutlined, QqOutlined, RedditOutlined, Inst
 import { randomTopics } from '../../services/api';
 import { useEffect, useState } from "react";
 import { unicodeToStr } from "@/utils";
+import { history } from "@umijs/max";
 interface TopicData {
   photos: string[],
   id: number,
@@ -103,7 +104,8 @@ export default () => {
             {
               picture_22.map((item, index) => {
                 return (
-                  <Col span={8}>
+                  <Col span={8} key={index}>
+                    
                     <Card
                       className={styles.photo_card_item}
                       cover={
@@ -131,7 +133,7 @@ export default () => {
             {
               topicsData.map((item, index) => {
                 return (
-                  <Col span={8}>
+                  <Col span={8} key={index}>
                     <Card
                       className={styles.photo_card_item}
                       cover={
@@ -141,6 +143,7 @@ export default () => {
                           className={styles.card_img}
                         />
                       }
+                      onClick={()=>{history.push(`/topic/${item.author}/${item.id}`)}}
                     >
                       <Meta
                         title={item.title}

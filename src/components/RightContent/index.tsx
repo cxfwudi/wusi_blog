@@ -14,8 +14,8 @@ export default () => {
     {
       key: '1',
       label: (
-        <Link to='/userinfo'>
-          个人信息
+        <Link to={`/userinfo/${initialState?.username}`}>
+          我的
         </Link>
       ),
       icon: <AlignLeftOutlined />
@@ -60,9 +60,12 @@ export default () => {
   useEffect(() => {
     let avatarUrl = '';
     const getUserAvatar = async () => {
-      const { data } = await currentUser();
-      avatarUrl = data.avatar;
-      setAvatarUrl(unicodeToStr(avatarUrl));
+      if(initialState?.username){
+        const { data } = await currentUser(initialState?.username);
+        avatarUrl = data.avatar;
+        setAvatarUrl(unicodeToStr(avatarUrl));
+      }
+      
     }
     if (initialState?.hasLogin === 'no-has' || initialState?.hasLogin === null) {
       avatarUrl = '/avatar/刘能.jpg';

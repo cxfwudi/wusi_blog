@@ -1,3 +1,4 @@
+/* 这里有个重要逻辑，后端需要作的，评论回复评论，目前只能回复主贴，即只有两层嵌套，正常评论回复逻辑是无限嵌套 */
 // 运行时配置
 import { logo } from './utils/imgApi';
 import type { RequestConfig } from '@umijs/max';
@@ -62,7 +63,6 @@ const requestInterceptor = (url: string, options: any) => {
 }
 const responseInterceptor = (response:any)=>{
   const {data} = response;
-  console.log(data)
   if(data.code !== 200) {
     notification.error({
       message:data.error

@@ -7,8 +7,5 @@ main.ant-layout-content.ant-pro-layout-content.css-dev-only-do-not-override-8vhh
 }
 .ant-layout .ant-pro-layout-container .ant-layout-content {
   background-image: url(assets//bg/all_container.jpg) !important;
-  overflow: hidden;
-}
-body{
-  overflow: hidden;
+  background-attachment: fixed;
 }

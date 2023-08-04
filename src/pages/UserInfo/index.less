@@ -6,18 +6,62 @@
 .container {
   background-image: url(../../assets/bg/bg_login.png);
   width: 100vw;
-  height: 100vh;
+  min-height: 100vh;
   display: flex;
-  justify-content: center;
-  // align-items: center;
+  flex-direction: column;
+  align-items: center;
   background-size: cover;
 
+  .topicRender {
+    width: 50%;
+
+    .topicList {
+      .topicImg {
+        width: 50%;
+        height: 30vh;
+        padding: 1vh 1vw 1vh 1vw;
+        display: inline;
+        position: relative;
+
+        img {
+          width: 45%;
+          height: 30vh;
+          cursor: pointer;
+        }
+
+        .toolTip {
+          visibility: hidden;
+          background-color: rgb(13, 13, 13);
+          position: absolute;
+          right: 50%;
+          top: 50%;
+          color: aliceblue;
+          padding: 2px;
+          font-size: .8vw;
+        }
+
+        img:hover {
+          // visibility: visible;
+          opacity: 0.5;
+          transition: opacity 0.3s ease;
+          /* 添加渐变过渡效果 */
+        }
+      }
+
+      .topicImg:hover .toolTip {
+        visibility: visible;
+      }
+    }
+  }
+
   .loginCard {
-    margin-top: 10vh;
+    margin-top: 1vh;
     height: 60%;
     width: 50%;
     padding: 24px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+
 
     .avatarLabel {
       position: relative;
@@ -54,13 +98,16 @@
         width: 3vw;
       }
     }
-    .avatarContainer{
+
+    .avatarContainer {
       position: relative;
       top: 5vh;
-      .avatarUplodaBtn{
+
+      .avatarUplodaBtn {
         padding-top: 1vh;
       }
     }
+
     .loginForm {
       position: relative;
       right: 5vw;
@@ -83,9 +130,7 @@
             }
           }
         }
-
       }
-
     }
   }
 }

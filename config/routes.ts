@@ -16,12 +16,13 @@ export default [
   {
     path: '/publish',
     component: 'Topic/Publish',
-    name: '发布文章'
+    name: '发布文章',
+    
   },
   {
-    path: '/list',  //在List组件中设置筛选条件
-    component: 'Topic/List',
-    name: '文章列表',
+    path: '/list',  //当前入口只有自己看自己的文章列表
+    component: 'List',
+    name: '管理文章',
     menuRender: false
   },
   {
@@ -35,7 +36,15 @@ export default [
     layout: false
   },
   {
-    path: '/userinfo',
+    path: '/userinfo/:username',
     component: 'UserInfo'
+  },
+  {
+    path:'/topic/:username/:t_id',
+    component:'Topic/Content'
+  },
+  {
+    path:'/topic/update/:t_id',
+    component:'Topic/Publish'
   }
 ]

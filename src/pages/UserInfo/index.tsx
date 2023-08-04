@@ -1,13 +1,21 @@
 //个人信息页
-import { Form, Input, Button, Card, Typography, notification, Avatar } from 'antd';
+import { Tooltip, Pagination, Form, Input, Button, Card, Typography, notification, Avatar } from 'antd';
 import { UserOutlined, LockOutlined, PhoneOutlined, MailOutlined } from '@ant-design/icons';
 import styles from './index.less'; // 引入 index.less 文件
 import { useEffect, useRef, useState } from 'react';
-import { useModel, history } from '@umijs/max';
-import { currentUser, updateUserInfo, uploadAvatar as fetchUploadAvatar } from '@/services/api';
+import { useModel, history, useLocation } from '@umijs/max';
+import { ListTopics, currentUser, updateUserInfo, uploadAvatar as fetchUploadAvatar } from '@/services/api';
 import { unicodeToStr } from '@/utils';
 const { Title } = Typography;
-
+interface ListTopicData {
+  id: string,
+  title: string,
+  category: string,
+  created_time: string,
+  introduce: string,
+  author: string,
+  photos: string[]
+}
 export default () => {
   const [form] = Form.useForm();
   const [account, setAccount] = useState('');
@@ -16,10 +24,17 @@ export default () => {
   const [introd, setIntrod] = useState('');
   const [avatar, setAvatar] = useState('');
   const avatarRef = useRef<HTMLInputElement>(null);
+  //文章
+  const [pageIndex, setPageIndex] = useState(1);
+  const [category, setCatrgory] = useState('all');
+  const [totalItems, setTotalItems] = useState(0);
+  const [dataItems, setDataItems] = useState<ListTopicData[]>([]);
   const { initialState, setInitialState } = useModel('@@initialState');
+  const location = useLocation();
+  const username = location.pathname.split('/')[2];
   useEffect(() => {
     const getUserInfo = async () => {
-      const { data } = await currentUser();
+      const { data } = await currentUser(username);
       setAvatar(unicodeToStr(data.avatar));
       form.setFieldsValue({
         username: data.nickname,
@@ -32,8 +47,17 @@ export default () => {
       setIntrod(data.info);
       setSign(data.sign);
     }
+    const fetchListData = async () => {
+      if (initialState?.username) {
+        const { data } = await ListTopics(`${pageIndex}`, category, initialState?.username);
+        setTotalItems(Number(data.total));
+        setDataItems(data.topics);
+      }
+    }
+
     if (initialState?.hasLogin === 'has') {
       getUserInfo();
+      fetchListData();
     }
   }, [])
   const updateInfo = async () => {
@@ -44,14 +68,14 @@ export default () => {
         email: email,
         info: introd
       })
-      if(code === 200){
+      if (code === 200) {
         notification.success({
-          message:'修改成功'
+          message: '修改成功'
         })
       }
-    }else{
+    } else {
       notification.error({
-        message:'请登录'
+        message: '请登录'
       })
     }
 
@@ -75,6 +99,19 @@ export default () => {
     }
 
   }
+  const onPageChange = (page: number) => {
+    setPageIndex(page)
+  }
+  useEffect(() => {
+    const fetchListData = async () => {
+      if (initialState?.username) {
+        const { data } = await ListTopics(`${pageIndex}`, category, initialState?.username);
+        setTotalItems(Number(data.total));
+        setDataItems(data.topics);
+      }
+    }
+    fetchListData();
+  }, [pageIndex])
   return (
     <div className={styles.container}>
       <Card className={styles.loginCard}>
@@ -110,7 +147,27 @@ export default () => {
             <Button type="primary" htmlType="submit" className={styles.loginButton} onClick={updateInfo}>修改信息</Button>
           </Form.Item>
         </Form>
+
         <span className={styles.bottomText}>记录生活中的小细节</span>
+      </Card>
+      <Card className={styles.topicRender}>
+        <div className={styles.topicList}>
+          {
+            dataItems.map((item, index) => {
+              return (
+                <div className={styles.topicImg} key={index}>
+                  <img src=
+                    {item.photos[0] ? `http://www.wusi.fun/media/${item.photos[0]}`
+                      : require('@/assets/no-img.jpg')
+                    } alt="文章图片"
+                  />
+                  <span className={styles.toolTip}>点击查看详细文章</span>
+                </div>
+              )
+            })
+          }
+        </div>
+        <Pagination defaultCurrent={1} total={totalItems} onChange={onPageChange} className={styles.fenpian} />
       </Card>
     </div>
   );

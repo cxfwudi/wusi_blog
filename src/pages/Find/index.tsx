@@ -1,11 +1,12 @@
 import { findTopics } from "@/services/api"
 import { useEffect, useState, useRef, useMemo } from "react"
-import { Card, Avatar } from "antd";
+import { Card, Avatar, notification } from "antd";
 import Masonry from "react-masonry-css";
 import styles from './index.less';
 import { unicodeToStr } from "@/utils";
 import { useScroll } from "@reactuses/core";
 import Loading from 'react-loading';
+import { history } from "@umijs/max";
 
 const { Meta } = Card;
 interface TopicData {
@@ -23,6 +24,7 @@ export default () => {
   //记录每次请求数据条数的起始位置
   const [pageIndex, setPageIndex] = useState(1);
   const elementRef = useRef<HTMLDivElement>(null);
+  const [isLoading, setIsLoading] = useState(true);
   const [x, y, isScrolling, arrivedState, directions] = useScroll(elementRef);
   const { bottom } = useMemo(
     () => arrivedState,
@@ -31,10 +33,16 @@ export default () => {
 
   useEffect(() => {
     if (JSON.stringify(bottom) === 'true') {
+      setIsLoading(true);
       const fetchArticlesData = async (page: string) => {
         const { data } = await findTopics(page);
         const { topics } = data;
-        setArticleData((prev)=>{
+        if (topics.length === 0) {
+          notification.success({
+            message: '知识用尽啦！'
+          })
+        }
+        setArticleData((prev) => {
           return [
             ...prev,
             ...topics
@@ -42,9 +50,10 @@ export default () => {
         });
       }
       fetchArticlesData(`${pageIndex}`);
-      setPageIndex(pageIndex+5);
+      setPageIndex(pageIndex + 5);
+    } else {
+      setIsLoading(false);
     }
-
   }, [JSON.stringify(bottom)])
 
 
@@ -53,14 +62,15 @@ export default () => {
       const { data } = await findTopics(page);
       const { topics } = data;
       setArticleData(topics);
+      setIsLoading(false);
     }
     fetchArticlesData(`${pageIndex}`);
-    setPageIndex(pageIndex+5);
+    setPageIndex(pageIndex + 5);
   }, [])
   const items = articleData.map((item, index) => {
     return (
       <Card
-
+      onClick={()=>{history.push(`/topic/${item.author}/${item.id}`)}}
         key={index}
         className={styles.card}
         hoverable
@@ -100,8 +110,8 @@ export default () => {
             {items}
           </Masonry>
         </div>
-        <span className={styles.endTip}>知识用尽啦!</span>
-        <Loading type="cubes" color="#007BFF" className={styles.loading} />
+        {isLoading && (<Loading type="cubes" color="#007BFF" className={styles.loading} />)}
+        
       </div>
     </div>
   )
