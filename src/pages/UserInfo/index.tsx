@@ -32,8 +32,12 @@ export default () => {
   const { initialState, setInitialState } = useModel('@@initialState');
   const location = useLocation();
   const username = location.pathname.split('/')[2];
-  useEffect(() => {
-    const getUserInfo = async () => {
+  useEffect(()=>{
+    if(initialState?.hasLogin === 'no-has'){
+      history.push('/404')
+    }
+  },[initialState?.hasLogin])
+  const getUserInfo = async () => {
       const { data } = await currentUser(username);
       setAvatar(unicodeToStr(data.avatar));
       form.setFieldsValue({
@@ -48,18 +52,26 @@ export default () => {
       setSign(data.sign);
     }
     const fetchListData = async () => {
-      if (initialState?.username) {
-        const { data } = await ListTopics(`${pageIndex}`, category, initialState?.username);
+      
+        const { data } = await ListTopics(`${pageIndex}`, category, username);
         setTotalItems(Number(data.total));
         setDataItems(data.topics);
-      }
     }
-
+  useEffect(() => {
+    
     if (initialState?.hasLogin === 'has') {
       getUserInfo();
       fetchListData();
     }
   }, [])
+
+  useEffect(()=>{
+    if (initialState?.hasLogin === 'has') {
+      getUserInfo();
+      fetchListData();
+    }
+  },[location.pathname])
+
   const updateInfo = async () => {
     if (initialState?.username) {
       const { code } = await updateUserInfo(initialState?.username, {
@@ -104,11 +116,11 @@ export default () => {
   }
   useEffect(() => {
     const fetchListData = async () => {
-      if (initialState?.username) {
-        const { data } = await ListTopics(`${pageIndex}`, category, initialState?.username);
+      
+        const { data } = await ListTopics(`${pageIndex}`, category, username);
         setTotalItems(Number(data.total));
         setDataItems(data.topics);
-      }
+      
     }
     fetchListData();
   }, [pageIndex])
@@ -144,7 +156,7 @@ export default () => {
           </Form.Item>
 
           <Form.Item>
-            <Button type="primary" htmlType="submit" className={styles.loginButton} onClick={updateInfo}>修改信息</Button>
+            {username === initialState?.username && (<Button type="primary" htmlType="submit" className={styles.loginButton} onClick={updateInfo}>修改信息</Button>)}
           </Form.Item>
         </Form>
 
@@ -160,6 +172,7 @@ export default () => {
                     {item.photos[0] ? `http://www.wusi.fun/media/${item.photos[0]}`
                       : require('@/assets/no-img.jpg')
                     } alt="文章图片"
+                    onClick={()=>{history.push(`/topic/${item.author}/${item.id}`)}}
                   />
                   <span className={styles.toolTip}>点击查看详细文章</span>
                 </div>

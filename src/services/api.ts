@@ -139,3 +139,9 @@ export const updateTopicPhotos = (data: FormData, username: string,t_id:string) 
     data: data
   })
 }
+
+export const deleteTopic = (username:string,t_id:string)=>{
+  return request<{code:number}>(`/topics/${username}?t_id=${t_id}`,{
+    method:'DELETE'
+  })
+}

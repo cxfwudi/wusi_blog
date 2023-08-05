@@ -21,7 +21,8 @@ export default () => {
         return {
           ...s,
           username,
-          token: data.token
+          token: data.token,
+          hasLogin:'has'
         }
       })
       history.push('/home');
@@ -36,10 +37,10 @@ export default () => {
         </Title>
         <Form name="login" className={styles.loginForm}>
           <Form.Item name="username" rules={[{ required: true, message: 'Please input your username!' }]}>
-            <Input prefix={<UserOutlined />} placeholder="Username" onChange={(e) => { setAccount(e.target.value) }} />
+            <Input prefix={<UserOutlined />} placeholder="请用账号:xby" onChange={(e) => { setAccount(e.target.value) }} />
           </Form.Item>
           <Form.Item name="password" rules={[{ required: true, message: 'Please input your password!' }]}>
-            <Input.Password prefix={<LockOutlined />} placeholder="Password" onChange={(e) => { setPwd(e.target.value) }} />
+            <Input.Password prefix={<LockOutlined />} placeholder="请用密码:111" onChange={(e) => { setPwd(e.target.value) }} />
           </Form.Item>
           <Form.Item>
             <Button type="primary" htmlType="submit" className={styles.loginButton} onClick={loginHandler}>Login</Button>

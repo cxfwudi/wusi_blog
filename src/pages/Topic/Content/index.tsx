@@ -4,6 +4,7 @@ import { useModel, useLocation } from "@umijs/max";
 import { UserOutlined, FieldTimeOutlined,CloseOutlined } from '@ant-design/icons';
 import { getTopicDetail, currentUser as getAuthorAvatar,submitTopicComment,submitTopicReply } from '@/services/api';
 import { unicodeToStr } from '@/utils';
+import { history } from '@umijs/max';
 import styles from './index.less';
 import ReactHtmlParser from 'react-html-parser';
 interface replyData {
@@ -86,7 +87,6 @@ export default () => {
   const cancelReplyModal = ()=>{
     setModalControl(-1);
   }
-  console.log(topicData)
   return (
     <div className={styles.container}>
       <div className={styles.topicMsg}>
@@ -94,6 +94,8 @@ export default () => {
           shape="square"
           size="large"
           src={`http://www.wusi.fun/media/${authorAvatar}`}
+          onClick={()=>{history.push(`/userinfo/${topicData?.author}`)}} 
+          style={{cursor:'pointer'}}
         />
         <span className={styles.authorName}>{topicData?.author}</span>
         <span className={styles.publishTime}><FieldTimeOutlined />{topicData?.created_time}</span>

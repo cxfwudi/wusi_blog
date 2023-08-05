@@ -6,27 +6,11 @@ import { randomTopics } from '../../services/api';
 import { useEffect, useState } from "react";
 import { unicodeToStr } from "@/utils";
 import { history } from "@umijs/max";
-interface TopicData {
-  photos: string[],
-  id: number,
-  title: string,
-  category: string,
-  created_time: string,
-  introduce: string,
-  author: string,
-  author_avatar: string
-}
-interface ArticleData {
-  code: number,
-  data: {
-    topics: TopicData[]
-  }
-}
+
 const { Meta } = Card;
 export default () => {
-  const [topicsData, setTopicsData] = useState<TopicData[]>([]);
+  const [topicsData, setTopicsData] = useState<API.TopicData[]>([]);
   const { initialState, setInitialState } = useModel('@@initialState');
-  console.log(initialState);
   const cardTitle = (type: string) => {
     if (type === 'content') {
       return (
@@ -50,6 +34,7 @@ export default () => {
   }
   
   useEffect(() => {
+    if(initialState?.hasLogin === 'no-has') history.push('/login');
     const fetchRandomsTopics = async () => {
       const { data } = await randomTopics();
       const { topics } = data;
@@ -57,8 +42,14 @@ export default () => {
     }
     fetchRandomsTopics();
   }, []);
-  console.log(topicsData);
   const picture_22 = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+  const topicTitle = (title:string,username:string,t_id:string)=>{
+    return (
+      <span onClick={()=>{history.push(`/topic/${username}/${t_id}`)}} style={{cursor:'pointer'}}>
+        {title}
+      </span>
+    )
+  }
   return (
     <div className={styles.container}>
       <div className={styles.introd}>
@@ -143,12 +134,17 @@ export default () => {
                           className={styles.card_img}
                         />
                       }
-                      onClick={()=>{history.push(`/topic/${item.author}/${item.id}`)}}
                     >
                       <Meta
-                        title={item.title}
+                        title={topicTitle(item.title,item.author,String(item.id))}
                         description={item.introduce}
-                        avatar={<Avatar src={`http://www.wusi.fun/media/${unicodeToStr(item.author_avatar)}`} />}
+                        avatar={
+                        <Avatar 
+                        src={`http://www.wusi.fun/media/${unicodeToStr(item.author_avatar)}`}
+                        onClick={()=>{history.push(`/userinfo/${item.author}`)}} 
+                        style={{cursor:'pointer'}}
+                        />
+                      }
                       />
                     </Card>
                   </Col>

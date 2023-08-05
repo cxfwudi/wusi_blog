@@ -14,11 +14,12 @@ export default () => {
     {
       key: '1',
       label: (
+        initialState?.hasLogin === 'has'&&
         <Link to={`/userinfo/${initialState?.username}`}>
           我的
         </Link>
       ),
-      icon: <AlignLeftOutlined />
+      icon: initialState?.hasLogin === 'has' && <AlignLeftOutlined />
     },
     {
       key: '2',
@@ -43,7 +44,8 @@ export default () => {
               await setInitialState((s) => {
                 return {
                   ...s,
-                  token: ''
+                  token: '',
+                  hasLogin:'no-has'
                 }
               })
               notification.error({
@@ -57,22 +59,30 @@ export default () => {
     }
   ];
   const [avatarUrl, setAvatarUrl] = useState('');
-  useEffect(() => {
-    let avatarUrl = '';
-    const getUserAvatar = async () => {
-      if(initialState?.username){
-        const { data } = await currentUser(initialState?.username);
-        avatarUrl = data.avatar;
-        setAvatarUrl(unicodeToStr(avatarUrl));
-      }
-      
+  let avatarUrlTemp = '';
+  const getUserAvatar = async () => {
+    if (initialState?.username) {
+      const { data } = await currentUser(initialState?.username);
+      avatarUrlTemp = data.avatar;
+      setAvatarUrl(unicodeToStr(avatarUrlTemp));
     }
+  }
+
+  const avatarControl = () => {
     if (initialState?.hasLogin === 'no-has' || initialState?.hasLogin === null) {
-      avatarUrl = '/avatar/刘能.jpg';
-      setAvatarUrl(avatarUrl)
+      avatarUrlTemp = '/avatar/刘能.jpg';
+      setAvatarUrl(avatarUrlTemp)
     } else {
       getUserAvatar();
     }
+  }
+
+  useEffect(() => {
+    avatarControl();
+  }, [initialState?.hasLogin])
+  useEffect(() => {
+    avatarControl();
+
   }, [])
   return (
     <Dropdown menu={{ items }}>

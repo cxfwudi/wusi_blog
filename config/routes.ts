@@ -46,5 +46,9 @@ export default [
   {
     path:'/topic/update/:t_id',
     component:'Topic/Publish'
+  },
+  {
+    path:'/404',
+    component:'NotFound'
   }
 ]

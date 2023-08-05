@@ -9,18 +9,9 @@ import Loading from 'react-loading';
 import { history } from "@umijs/max";
 
 const { Meta } = Card;
-interface TopicData {
-  photos: string[],
-  id: number,
-  title: string,
-  category: string,
-  created_time: string,
-  introduce: string,
-  author: string,
-  author_avatar: string
-}
+
 export default () => {
-  const [articleData, setArticleData] = useState<TopicData[]>([]);
+  const [articleData, setArticleData] = useState<API.TopicData[]>([]);
   //记录每次请求数据条数的起始位置
   const [pageIndex, setPageIndex] = useState(1);
   const elementRef = useRef<HTMLDivElement>(null);
@@ -67,10 +58,16 @@ export default () => {
     fetchArticlesData(`${pageIndex}`);
     setPageIndex(pageIndex + 5);
   }, [])
+  const topicTitle = (title: string, username: string, t_id: string) => {
+    return (
+      <span onClick={() => { history.push(`/topic/${username}/${t_id}`) }}>
+        {title}
+      </span>
+    )
+  }
   const items = articleData.map((item, index) => {
     return (
       <Card
-      onClick={()=>{history.push(`/topic/${item.author}/${item.id}`)}}
         key={index}
         className={styles.card}
         hoverable
@@ -78,9 +75,9 @@ export default () => {
         cover={<img src={`http://www.wusi.fun/media/${item.photos[0]}`} alt="" />}
       >
         <Meta
-          title={item.title}
+          title={topicTitle(item.title, item.author, String(item.id))}
           description={item.introduce}
-          avatar={<Avatar src={`http://www.wusi.fun/media/${unicodeToStr(item.author_avatar)}`} />}
+          avatar={<Avatar src={`http://www.wusi.fun/media/${unicodeToStr(item.author_avatar)}`} onClick={() => { history.push(`/userinfo/${item.author}`) }} />}
         />
         <span className={styles.author}>{item.author}</span>
 
@@ -111,7 +108,7 @@ export default () => {
           </Masonry>
         </div>
         {isLoading && (<Loading type="cubes" color="#007BFF" className={styles.loading} />)}
-        
+
       </div>
     </div>
   )

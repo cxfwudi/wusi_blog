@@ -104,7 +104,6 @@ export default () => {
     setCategoryValue(value[0])
   }
   const onTitleChange = (e: any) => {
-    console.log(e.target.value)
     if (e.target.value === '') notification.error({
       message: '此字段不能为空'
     })
@@ -119,9 +118,13 @@ export default () => {
   const publishTopic = async () => {
     const formData = new FormData();
     fileList.forEach((file) => {
-      formData.append('files', file as RcFile);
+      if(file.originFileObj){
+        formData.append('files', file.originFileObj);
+      }
     });
     const username = initialState?.username;
+    if(username) formData.append('username',username);
+    
     if (username && limitValue !== '' && categoryValue != '' && titleValue != '' && htmlContent != '') {
       const { code } = await publishTopicText({
         content: htmlContent,
@@ -148,9 +151,12 @@ export default () => {
   const updateTopic = async () => {
     const formData = new FormData();
     fileList.forEach((file) => {
-      formData.append('files', file as RcFile);
+      if(file.originFileObj){
+        formData.append('files', file.originFileObj);
+      }
     });
     const username = initialState?.username;
+    if(username) formData.append('username',username);
     if (username && limitValue !== '' && categoryValue != '' && titleValue != '' && htmlContent != '') {
       const { code } = await updateTopicData({
         content: htmlContent,
@@ -205,7 +211,6 @@ export default () => {
       }
     }
   }, [])
-  // console.log(initEditorContent.current)
   const uploadButton = (
     <div>
       <PlusOutlined />
@@ -225,7 +230,7 @@ export default () => {
       return false;
     },
     onChange: ({ fileList: newFileList }) => {
-      setFileList(newFileList)
+      setFileList(newFileList);
     },
     fileList,
     listType: 'picture-card',
@@ -265,8 +270,8 @@ export default () => {
           <MyEditor htmlValue={initEditorContent} transferEditorContent={getEditorCotennt} />
           {
             location.pathname.split('/')[3] ?
-              <Button onClick={updateTopic} style={{ marginTop: '10px' }}>发送</Button> :
-              <Button onClick={publishTopic} style={{ marginTop: '10px' }}>发送</Button>
+              <Button onClick={updateTopic} style={{ marginTop: '10px' }}>更新文章</Button> :
+              <Button onClick={publishTopic} style={{ marginTop: '10px' }}>发布文章</Button>
           }
         </div>
       </div>

@@ -2,6 +2,7 @@
   width: 60vw;
   margin: 0 auto;
   background-color: #ffffff;
+  min-height: 100vh;
 }
 .container .topicMsg {
   margin-left: 20px;
