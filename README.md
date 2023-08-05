@@ -1,3 +1,6 @@
 # README
-
-`@umijs/max` 模板项目，更多功能参考 [Umi Max 简介](https://umijs.org/docs/max/introduce)
+wusi个人博客重构项目
+umi4+react18+antd+ts
+###启动
+yarn
+yarn start
