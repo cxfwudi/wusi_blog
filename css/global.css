@@ -8,6 +8,8 @@ main.ant-layout-content.ant-pro-layout-content.css-dev-only-do-not-override-8vhh
 .ant-layout .ant-pro-layout-container .ant-layout-content {
   background-image: url(assets//bg/all_container.jpg) !important;
   background-attachment: fixed;
+  padding-block: 0;
+  padding-inline: 0;
 }
 .root {
   /* 修改滚动条的宽度和颜色 */

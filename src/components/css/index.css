@@ -1,66 +1,22 @@
-@font-face {
-  font-family: 'Victor Mono';
-  font-style: normal;
-  font-weight: 100;
-  font-display: swap;
-  src: url(https://fonts.gstatic.com/s/victormono/v1/Yq6H-LGQWyfv-LGy7lEO09xRn-T81AVB_tCyO8_NhA.ttf) format('truetype');
+.animated_loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
 }
-@font-face {
-  font-family: 'Zhi Mang Xing';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url(https://fonts.gstatic.com/s/zhimangxing/v17/f0Xw0ey79sErYFtWQ9a2rq-g0ac.ttf) format('truetype');
+.loader {
+  border: 4px solid rgba(0, 0, 0, 0.1);
+  border-left-color: #007bff;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
 }
-@font-face {
-  font-family: 'Long Cang';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url(https://fonts.gstatic.com/s/longcang/v17/LYjAdGP8kkgoTec8zkRgrQ.ttf) format('truetype');
-}
-.cardContainer {
-  background-color: #fafafa;
-  width: 60vw;
-  border-radius: 4px;
-  font-family: 'Long Cang', cursive;
-  margin: 0 auto;
-  margin-bottom: 10px;
-  padding: 10px 0 5px 0;
-}
-.cardContainer .itemInfo {
-  padding-left: 10px;
-  font-size: 1vw;
-  opacity: 0.8;
-}
-.cardContainer .itemInfo span {
-  padding-left: 5px;
-  padding-right: 5px;
-}
-.cardContainer .itemContent {
-  padding-left: 10px;
-}
-.cardContainer .itemContent p:nth-child(odd) {
-  font-size: 1.5vw;
-  margin: 0;
-  font-weight: bold;
-}
-.cardContainer .itemContent p:nth-child(even) {
-  font-size: 1vw;
-  opacity: 0.8;
-}
-.cardContainer .itemContent .operate {
-  float: right;
-  position: relative;
-  bottom: 4vh;
-  right: 2vh;
-}
-.cardContainer .itemContent .operate span {
-  font-weight: bold;
-  cursor: pointer;
-  padding-right: 5px;
-  color: blue;
-}
-.cardContainer .itemContent .operate span:nth-child(even) {
-  color: red;
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }

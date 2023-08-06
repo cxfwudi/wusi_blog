@@ -1,6 +1,6 @@
 import { useModel } from "@umijs/max";
 import styles from './index.less'
-import { Anchor, Tooltip, Card, Space, Row, Col, Avatar } from "antd";
+import {Tooltip, Card, Space, Row, Col, Avatar } from "antd";
 import { WechatOutlined, UnorderedListOutlined, QqOutlined, RedditOutlined, InstagramOutlined } from "@ant-design/icons";
 import { randomTopics } from '../../services/api';
 import { useEffect, useState } from "react";
@@ -64,16 +64,6 @@ export default () => {
               <QqOutlined />QQ
             </Tooltip>
           </div>
-          <Anchor
-            className={styles.read}
-            items={[
-              {
-                key: '开始阅读',
-                href: '#part-1',
-                title: '开始阅读'
-              }
-            ]}
-          >开始阅读</Anchor>
         </div>
       </div>
       <Space direction="vertical" className={styles.card_contaienr} id="part-1">

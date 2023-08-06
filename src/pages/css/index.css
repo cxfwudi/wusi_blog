@@ -1,44 +1,89 @@
-.not-found-container {
+@font-face {
+  font-family: 'Victor Mono';
+  font-style: normal;
+  font-weight: 100;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/victormono/v1/Yq6H-LGQWyfv-LGy7lEO09xRn-T81AVB_tCyO8_NhA.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Zhi Mang Xing';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/zhimangxing/v17/f0Xw0ey79sErYFtWQ9a2rq-g0ac.ttf) format('truetype');
+}
+.container {
+  width: calc(100vw-1px);
   display: flex;
   justify-content: center;
-  align-items: center;
-  height: 100vh;
-  background-color: #333;
-  font-family: 'Arial, sans-serif';
-  color: #fff;
+  flex-direction: column;
 }
-.not-found-content {
+.container .introd {
+  background-image: url(../../assets/bg/home.png);
+  width: calc(100vw-8px);
+  height: 94vh;
+  overflow-x: hidden;
+}
+.container .introd .text_des {
+  color: azure;
+  margin-top: 10vh;
+  text-align: center;
+  font-family: 'Victor Mono', monospace;
+  font-family: 'Zhi Mang Xing', cursive;
+}
+.container .introd .text_des .title {
+  font-size: 10vw;
+}
+.container .introd .text_des .signature {
+  font-size: 4vw;
+}
+.container .introd .text_des .contact {
+  padding-top: 10vh;
+  font-size: 2vw;
+  cursor: pointer;
+}
+.container .introd .text_des :global div div .ant-anchor-wrapper .ant-anchor .ant-anchor-link .ant-anchor-link-title {
+  padding-top: 5vh;
+  cursor: pointer;
+  font-size: 1vw;
+  font-family: 'Victor Mono', monospace;
+  font-family: 'Zhi Mang Xing', cursive;
+  color: white;
+  display: inline;
+}
+.container .card_contaienr {
+  margin: 0 auto;
+  width: 80vw;
+  margin-top: 1vh;
+}
+.container .card_contaienr .photo_card {
+  margin-left: 1.5vw;
+}
+.container .card_contaienr .photo_card .photo_card_item {
+  margin-bottom: 1vh;
+  width: 90%;
+}
+.container .card_contaienr .photo_card .photo_card_item .card_img {
+  width: 100%;
+  height: 30vh;
+}
+.container .beian {
   text-align: center;
 }
-.not-found-title {
-  font-size: 100px;
-  font-weight: bold;
-  margin-bottom: 20px;
-  animation: bounce 2s infinite;
-  /* 添加一个 CSS 动画效果 */
+/* 修改滚动条的宽度和颜色 */
+::-webkit-scrollbar {
+  width: 1px;
+  /* 滚动条宽度 */
 }
-.not-found-subtitle {
-  font-size: 24px;
-  margin-bottom: 40px;
+/* 修改滚动条滑块的颜色 */
+::-webkit-scrollbar-thumb {
+  background-color: #888;
+  /* 滑块背景颜色 */
+  border-radius: 4px;
+  /* 滑块圆角 */
 }
-.not-found-link {
-  font-size: 18px;
-  color: #1890ff;
-  text-decoration: underline;
-}
-/* 自定义动画效果 */
-@keyframes bounce {
-  0%,
-  20%,
-  50%,
-  80%,
-  100% {
-    transform: translateY(0);
-  }
-  40% {
-    transform: translateY(-20px);
-  }
-  60% {
-    transform: translateY(-10px);
-  }
+/* 隐藏滚动条的轨道（滚动条背景） */
+::-webkit-scrollbar-track {
+  background-color: transparent;
+  /* 轨道背景颜色 */
 }

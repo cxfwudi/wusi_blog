@@ -16,6 +16,7 @@ export default () => {
   const [pageIndex, setPageIndex] = useState(1);
   const elementRef = useRef<HTMLDivElement>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [allLoading, setAllLoading] = useState(true);
   const [x, y, isScrolling, arrivedState, directions] = useScroll(elementRef);
   const { bottom } = useMemo(
     () => arrivedState,
@@ -49,9 +50,11 @@ export default () => {
 
 
   useEffect(() => {
+
     const fetchArticlesData = async (page: string) => {
       const { data } = await findTopics(page);
       const { topics } = data;
+      if (data) setAllLoading(false);
       setArticleData(topics);
       setIsLoading(false);
     }
@@ -108,7 +111,6 @@ export default () => {
           </Masonry>
         </div>
         {isLoading && (<Loading type="cubes" color="#007BFF" className={styles.loading} />)}
-
       </div>
     </div>
   )
