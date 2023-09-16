@@ -58,7 +58,7 @@ export default () => {
     }
   }
   const deleteSuccess = (isDelete:boolean)=>{
-    setCarryDelete(isDelete);
+    setCarryDelete(!carryDelete);
   }
   useEffect(()=>{
     fetchListData();

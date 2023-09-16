@@ -1,7 +1,7 @@
 import { Form, Input, Button, Card, Typography } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import styles from './index.less'; // 引入 index.less 文件
-import { useModel,history } from '@umijs/max';
+import { useModel, history } from '@umijs/max';
 import { logo } from '@/utils/imgApi';
 import { useState } from 'react';
 import { loginHandler as fetchLogin } from '@/services/api';
@@ -13,16 +13,17 @@ export default () => {
   const { initialState, setInitialState } = useModel('@@initialState');
   const loginHandler = async () => {
     const { code, username, data } = await fetchLogin({ username: account, password: pwd });
-    localStorage.setItem('username', username);
-    localStorage.setItem('wusiToken', data.token);
-    localStorage.setItem('blog_has_login','has');
+
     if (code === 200) {
+      localStorage.setItem('username', username);
+      localStorage.setItem('wusiToken', data.token);
+      localStorage.setItem('blog_has_login', 'has');
       await setInitialState((s) => {
         return {
           ...s,
           username,
           token: data.token,
-          hasLogin:'has'
+          hasLogin: 'has'
         }
       })
       history.push('/home');

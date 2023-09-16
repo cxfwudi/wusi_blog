@@ -34,7 +34,7 @@ export default () => {
   }
   
   useEffect(() => {
-    if(initialState?.hasLogin === 'no-has') history.push('/login');
+    if(initialState?.hasLogin === 'no-has' || localStorage.getItem('blog_has_login') != 'has') history.push('/login');
     const fetchRandomsTopics = async () => {
       const { data } = await randomTopics();
       const { topics } = data;

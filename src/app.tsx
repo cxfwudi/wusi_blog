@@ -64,6 +64,7 @@ const requestInterceptor = (url: string, options: any) => {
 const responseInterceptor = (response:any)=>{
   const {data} = response;
   if(data.code !== 200) {
+    console.log("相应拦截器触发")
     notification.error({
       message:data.error
     })
